@@ -20,6 +20,26 @@
 #include <XnVSwipeDetector.h>
 #include <XnVCircleDetector.h>
 
+
+
+
+
+#include <set>
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
+
+typedef websocketpp::server<websocketpp::config::asio> server;
+
+using websocketpp::connection_hdl;
+using websocketpp::lib::placeholders::_1;
+using websocketpp::lib::placeholders::_2;
+using websocketpp::lib::bind;
+
+
+
+
+
+
 // xml to initialize OpenNI
 #define SAMPLE_XML_FILE "../../../Data/Sample-Tracking.xml"
 #define SAMPLE_XML_FILE_LOCAL "Sample-Tracking.xml"
