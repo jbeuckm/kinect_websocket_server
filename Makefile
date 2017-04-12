@@ -1,6 +1,6 @@
 SRC_FILES = main.cpp
 
-EXE_NAME = Repeater
+EXE_NAME = GestureRepeater
 
 ifndef TARGETFS
 	TARGETFS=/

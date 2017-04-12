@@ -16,6 +16,7 @@
 #include <XnVSessionManager.h>
 #include "XnVMultiProcessFlowClient.h"
 #include <XnVWaveDetector.h>
+#include <XnVPushDetector.h>
 
 // xml to initialize OpenNI
 #define SAMPLE_XML_FILE "../../../Data/Sample-Tracking.xml"
@@ -44,6 +45,11 @@ void XN_CALLBACK_TYPE SessionEnd(void* UserCxt)
 void XN_CALLBACK_TYPE OnWaveCB(void* cxt)
 {
 	printf("Wave!\n");
+}
+// Callback for push detection
+void XN_CALLBACK_TYPE OnPushCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
+{
+	printf("Push! %f %f\n", fVelocity, fAngle);
 }
 // callback for a new position of any hand
 void XN_CALLBACK_TYPE OnPointUpdate(const XnVHandPointContext* pContext, void* cxt)
@@ -129,6 +135,12 @@ int main(int argc, char** argv)
 	wc.RegisterWave(NULL, OnWaveCB);
 	wc.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&wc);
+
+	// init & register push control
+	XnVPushDetector pd;
+	pd.RegisterPush(NULL, OnPushCB);
+	pd.RegisterPointUpdate(NULL, OnPointUpdate);
+	pSessionGenerator->AddListener(&pd);
 
 	printf("Please perform focus gesture to start session\n");
 	printf("Hit any key to exit\n");
