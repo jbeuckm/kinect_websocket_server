@@ -21,20 +21,7 @@
 #include <XnVCircleDetector.h>
 
 
-
-
-
-#include <set>
-#include <websocketpp/config/asio_no_tls.hpp>
-#include <websocketpp/server.hpp>
-
-typedef websocketpp::server<websocketpp::config::asio> server;
-
-using websocketpp::connection_hdl;
-using websocketpp::lib::placeholders::_1;
-using websocketpp::lib::placeholders::_2;
-using websocketpp::lib::bind;
-
+#include "broadcast_server.hpp"
 
 
 
@@ -126,6 +113,8 @@ XnBool fileExists(const char *fn)
 // this sample can run either as a regular sample, or as a client for multi-process (remote mode)
 int main(int argc, char** argv)
 {
+    
+    
 	xn::Context context;
 	xn::ScriptNode scriptNode;
 	XnVSessionGenerator* pSessionGenerator;
@@ -179,7 +168,11 @@ int main(int argc, char** argv)
 
 		// Initialization done. Start generating
 		context.StartGeneratingAll();
-	}
+
+    broadcast_server server;
+    server.run(9002);
+    
+    }
 
 	// Register session callbacks
 	pSessionGenerator->RegisterSession(NULL, &SessionStart, &SessionEnd, &SessionProgress);

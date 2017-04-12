@@ -6,6 +6,7 @@ https://creativevreality.wordpress.com/2016/01/26/setting-up-the-kinect-on-osx-e
 
 libboost_system.dylib had to be built for both i386 and x86_64 architectures and those merged into a universal dylib.
 
+Build it this way:
 ```
 rm -rf i386 x86_64 universal
 ./bootstrap.sh --with-toolset=clang --with-libraries=filesystem
@@ -18,3 +19,8 @@ for dylib in i386/*; do
   lipo -create -arch i386 $dylib -arch x86_64 x86_64/$(basename $dylib) -output universal/$(basename $dylib); 
 done
 ```
+
+
+The NiteSameplMakefile must use this line: 
+
+CFLAGS += -std=c++14
