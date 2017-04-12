@@ -17,6 +17,7 @@
 #include "XnVMultiProcessFlowClient.h"
 #include <XnVWaveDetector.h>
 #include <XnVPushDetector.h>
+#include <XnVSwipeDetector.h>
 
 // xml to initialize OpenNI
 #define SAMPLE_XML_FILE "../../../Data/Sample-Tracking.xml"
@@ -51,6 +52,31 @@ void XN_CALLBACK_TYPE OnPushCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
 	printf("Push! %f %f\n", fVelocity, fAngle);
 }
+
+
+// Callback for swipe detection
+void XN_CALLBACK_TYPE OnSwipeUpCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
+{
+	printf("Swipe Up! %f %f\n", fVelocity, fAngle);
+}
+// Callback for swipe detection
+void XN_CALLBACK_TYPE OnSwipeDownCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
+{
+	printf("Swipe Down! %f %f\n", fVelocity, fAngle);
+}
+// Callback for swipe detection
+void XN_CALLBACK_TYPE OnSwipeLeftCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
+{
+	printf("Swipe Left! %f %f\n", fVelocity, fAngle);
+}
+// Callback for swipe detection
+void XN_CALLBACK_TYPE OnSwipeRightCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
+{
+	printf("Swipe Right! %f %f\n", fVelocity, fAngle);
+}
+
+
+
 // callback for a new position of any hand
 void XN_CALLBACK_TYPE OnPointUpdate(const XnVHandPointContext* pContext, void* cxt)
 {
@@ -141,6 +167,15 @@ int main(int argc, char** argv)
 	pd.RegisterPush(NULL, OnPushCB);
 	pd.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&pd);
+
+	// init & register push control
+	XnVSwipeDetector sd;
+	sd.RegisterSwipeUp(NULL, OnSwipeUpCB);
+	sd.RegisterSwipeDown(NULL, OnSwipeDownCB);
+	sd.RegisterSwipeLeft(NULL, OnSwipeLeftCB);
+	sd.RegisterSwipeRight(NULL, OnSwipeRightCB);
+//	sd.RegisterPointUpdate(NULL, OnPointUpdate);
+	pSessionGenerator->AddListener(&sd);
 
 	printf("Please perform focus gesture to start session\n");
 	printf("Hit any key to exit\n");
