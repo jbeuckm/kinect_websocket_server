@@ -18,6 +18,7 @@
 #include <XnVWaveDetector.h>
 #include <XnVPushDetector.h>
 #include <XnVSwipeDetector.h>
+#include <XnVCircleDetector.h>
 
 // xml to initialize OpenNI
 #define SAMPLE_XML_FILE "../../../Data/Sample-Tracking.xml"
@@ -73,6 +74,13 @@ void XN_CALLBACK_TYPE OnSwipeLeftCB(XnFloat fVelocity, XnFloat fAngle, void* cxt
 void XN_CALLBACK_TYPE OnSwipeRightCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
 	printf("Swipe Right! %f %f\n", fVelocity, fAngle);
+}
+
+
+// Callback for circle detection
+void XN_CALLBACK_TYPE OnCircleCB(XnFloat fTimes, XnBool bConfident, const XnVCircle *pCircle, void* cxt)
+{
+	printf("Circle! %f %d\n", fTimes, bConfident);
 }
 
 
@@ -168,13 +176,19 @@ int main(int argc, char** argv)
 	pd.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&pd);
 
+	// init & register circle control
+	XnVCircleDetector cd;
+	cd.RegisterCircle(NULL, OnCircleCB);
+	cd.RegisterPointUpdate(NULL, OnPointUpdate);
+	pSessionGenerator->AddListener(&cd);
+
 	// init & register push control
 	XnVSwipeDetector sd;
 	sd.RegisterSwipeUp(NULL, OnSwipeUpCB);
 	sd.RegisterSwipeDown(NULL, OnSwipeDownCB);
 	sd.RegisterSwipeLeft(NULL, OnSwipeLeftCB);
 	sd.RegisterSwipeRight(NULL, OnSwipeRightCB);
-//	sd.RegisterPointUpdate(NULL, OnPointUpdate);
+	sd.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&sd);
 
 	printf("Please perform focus gesture to start session\n");
