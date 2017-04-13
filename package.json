@@ -1,0 +1,23 @@
+{
+  "name": "kinect_repeater_server",
+  "version": "1.0.0",
+  "description": "This expects to run from the Samples folder within NITE-Bin-Dev-MacOSX-v1.5.2.21",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbeuckm/kinect_websocket_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbeuckm/kinect_websocket_server/issues"
+  },
+  "homepage": "https://github.com/jbeuckm/kinect_websocket_server#readme",
+  "dependencies": {
+    "ws": "^2.2.3"
+  }
+}
