@@ -20,7 +20,6 @@
 #include <XnVSwipeDetector.h>
 #include <XnVCircleDetector.h>
 
-
 #include "broadcast_server.hpp"
 
 // xml to initialize OpenNI
@@ -83,7 +82,7 @@ void XN_CALLBACK_TYPE OnSwipeRightCB(XnFloat fVelocity, XnFloat fAngle, void* cx
 // Callback for circle detection
 void XN_CALLBACK_TYPE OnCircleCB(XnFloat fTimes, XnBool bConfident, const XnVCircle *pCircle, void* cxt)
 {
-	printf("{'type':'circle','times':%f,'confidant':%u}\n", fTimes, bConfident);
+	printf("{'type':'circle','times':%f,'confident':%u}\n", fTimes, bConfident);
 }
 
 
@@ -199,8 +198,7 @@ int main(int argc, char** argv)
 	sd.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&sd);
 
-	printf("Please perform focus gesture to start session\n");
-	printf("Hit any key to exit\n");
+    printf("start_data\n");
 
 	// Main loop
 	while (!xnOSWasKeyboardHit())
