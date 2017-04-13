@@ -19,13 +19,13 @@ const spawn = require('child_process').spawn;
 
 var options = {
     cwd: '../Bin/x64-Release',
-    stdio: ["ignore", process.stdout, "ignore"]
+//    stdio: ["ignore", process.stdout, "ignore"]
 };
 
 const bat = spawn('./GestureRepeater', [], options);
 
 const rl = require('readline').createInterface({
-  input: process.stdout
+  input: bat.stdout
 });
 
 rl.on('line', function(line) {

@@ -198,6 +198,7 @@ int main(int argc, char** argv)
 	sd.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&sd);
 
+    setbuf(stdout, NULL);
     printf("start_data\n");
 
 	// Main loop
