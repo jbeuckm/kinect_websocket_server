@@ -28,7 +28,7 @@ wss.on('connection', function connection(ws) {
 const spawn = require('child_process').spawn;
 
 var options = {
-    cwd: '/Users/innovator/Kinect/NITE-Bin-Dev-MacOSX-v1.5.2.21/Samples/Bin/x64-Release'
+    cwd: '../Bin/x64-Release'
 };
 
 
