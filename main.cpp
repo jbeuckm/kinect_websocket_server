@@ -33,56 +33,56 @@
 // Callback for when the focus is in progress
 void XN_CALLBACK_TYPE SessionProgress(const XnChar* strFocus, const XnPoint3D& ptFocusPoint, XnFloat fProgress, void* UserCxt)
 {
-	printf("{'type':'progress' 'x':%d,'y':%d,'z':%d 'progress':%f 'focus':'%s'}\n", (int)ptFocusPoint.X, (int)ptFocusPoint.Y, (int)ptFocusPoint.Z, fProgress,  strFocus);
+	printf("{\"type\":\"progress\" \"x\":%d,\"y\":%d,\"z\":%d \"progress\":%f \"focus\":\"%s\"}\n", (int)ptFocusPoint.X, (int)ptFocusPoint.Y, (int)ptFocusPoint.Z, fProgress,  strFocus);
 }
 // callback for session start
 void XN_CALLBACK_TYPE SessionStart(const XnPoint3D& ptFocusPoint, void* UserCxt)
 {
-	printf("{'type':'start', 'x':%d,'y':%d,'z':%d}\n", (int)ptFocusPoint.X, (int)ptFocusPoint.Y, (int)ptFocusPoint.Z);
+	printf("{\"type\":\"start\", \"x\":%d,\"y\":%d,\"z\":%d}\n", (int)ptFocusPoint.X, (int)ptFocusPoint.Y, (int)ptFocusPoint.Z);
 }
 // Callback for session end
 void XN_CALLBACK_TYPE SessionEnd(void* UserCxt)
 {
-	printf("{'type':'end'}\n");
+	printf("{\"type\":\"end\"}\n");
 }
 // Callback for wave detection
 void XN_CALLBACK_TYPE OnWaveCB(void* cxt)
 {
-	printf("{'type':'wave'}\n");
+	printf("{\"type\":\"wave\"}\n");
 }
 // Callback for push detection
 void XN_CALLBACK_TYPE OnPushCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
-	printf("{'type':'push', 'velocity':%f, 'angle':%f}\n", fVelocity, fAngle);
+	printf("{\"type\":\"push\", \"velocity\":%f, \"angle\":%f}\n", fVelocity, fAngle);
 }
 
 
 // Callback for swipe detection
 void XN_CALLBACK_TYPE OnSwipeUpCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
-	printf("{'type':'swipe_up','velocity':%f,'angle':%f}\n", fVelocity, fAngle);
+	printf("{\"type\":\"swipe_up\",\"velocity\":%f,\"angle\":%f}\n", fVelocity, fAngle);
 }
 // Callback for swipe detection
 void XN_CALLBACK_TYPE OnSwipeDownCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
-	printf("{'type':'swipe_down','velocity':%f,'angle':%f}\n", fVelocity, fAngle);
+	printf("{\"type\":\"swipe_down\",\"velocity\":%f,\"angle\":%f}\n", fVelocity, fAngle);
 }
 // Callback for swipe detection
 void XN_CALLBACK_TYPE OnSwipeLeftCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
-	printf("{'type':'swipe_left','velocity':%f,'angle':%f}\n", fVelocity, fAngle);
+	printf("{\"type\":\"swipe_left\",\"velocity\":%f,\"angle\":%f}\n", fVelocity, fAngle);
 }
 // Callback for swipe detection
 void XN_CALLBACK_TYPE OnSwipeRightCB(XnFloat fVelocity, XnFloat fAngle, void* cxt)
 {
-	printf("{'type':'swipe_right','velocity':%f,'angle':%f}\n", fVelocity, fAngle);
+	printf("{\"type\":\"swipe_right\",\"velocity\":%f,\"angle\":%f}\n", fVelocity, fAngle);
 }
 
 
 // Callback for circle detection
 void XN_CALLBACK_TYPE OnCircleCB(XnFloat fTimes, XnBool bConfident, const XnVCircle *pCircle, void* cxt)
 {
-	printf("{'type':'circle','times':%f,'confident':%u}\n", fTimes, bConfident);
+	printf("{\"type\":\"circle\",\"times\":%f,\"confident\":%u}\n", fTimes, bConfident);
 }
 
 
@@ -90,7 +90,7 @@ void XN_CALLBACK_TYPE OnCircleCB(XnFloat fTimes, XnBool bConfident, const XnVCir
 // callback for a new position of any hand
 void XN_CALLBACK_TYPE OnPointUpdate(const XnVHandPointContext* pContext, void* cxt)
 {
-	printf("{'type':'point','id':%d, 'x':%d,'y':%d,'z':%d }\n", pContext->nID, (int)pContext->ptPosition.X, (int)pContext->ptPosition.Y, (int)pContext->ptPosition.Z);
+	printf("{\"type\":\"point\",\"id\":%d, \"x\":%d,\"y\":%d,\"z\":%d }\n", pContext->nID, (int)pContext->ptPosition.X, (int)pContext->ptPosition.Y, (int)pContext->ptPosition.Z);
 }
 
 //-----------------------------------------------------------------------------

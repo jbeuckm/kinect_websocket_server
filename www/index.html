@@ -1,0 +1,43 @@
+<html>
+
+<head>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+
+<body>
+
+    <svg id="overlay"></svg>
+
+    <script>
+        var svg = d3.select("svg#overlay");
+
+        svg.attr('width', window.innerWidth);
+        svg.attr('height', window.innerHeight);
+
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        var g = svg.append('g');
+
+        g.append('circle')
+            .attr("cx", 5)
+            .attr("cy", 5)
+            .attr("r", 5)
+            .attr("fill", function (d) {
+                return color(Math.random());
+            });
+
+        
+        var host = 'localhost';
+
+        var ws = new WebSocket('ws://' + host + ':8080');
+        ws.onmessage = function (event) {
+            console.log(JSON.parse(event.data));
+
+        };
+        
+    </script>
+</body>
+
+</html>
