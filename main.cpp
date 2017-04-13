@@ -24,9 +24,6 @@
 #include "broadcast_server.hpp"
 
 
-
-
-
 // xml to initialize OpenNI
 #define SAMPLE_XML_FILE "../../../Data/Sample-Tracking.xml"
 #define SAMPLE_XML_FILE_LOCAL "Sample-Tracking.xml"
@@ -169,9 +166,8 @@ int main(int argc, char** argv)
 		// Initialization done. Start generating
 		context.StartGeneratingAll();
 
-    broadcast_server server;
-    server.run(9002);
-    
+        broadcast_server server;
+        server.run(9002);
     }
 
 	// Register session callbacks
