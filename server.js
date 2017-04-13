@@ -29,7 +29,6 @@ const rl = require('readline').createInterface({
 });
 
 rl.on('line', function(line) {
-    console.log('line');
     console.log(line);
     wss.broadcast(line);
 });

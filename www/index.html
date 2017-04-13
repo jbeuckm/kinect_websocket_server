@@ -24,6 +24,15 @@
 
         var g = svg.append('g');
 
+
+        var x = d3.scaleLinear()
+            .domain([-500, 500])
+            .range([0, window.innerWidth]);
+
+        var y = d3.scaleLinear()
+            .domain([-500, 500])
+            .range([window.innerHeight, 0]);
+
         var pointer = g.append('circle')
             .attr("cx", 5)
             .attr("cy", 5)
@@ -39,9 +48,9 @@
         ws.onmessage = function (event) {
             event = JSON.parse(event.data);
             switch (event.type) {
-                case 'point': 
-                    pointer.attr("cx", event.x).attr("cy", event.y);
-                    break;
+            case 'point':
+                pointer.attr("cx", x(event.x) ).attr("cy", y(event.y) );
+                break;
             }
             console.log(event);
 
