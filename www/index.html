@@ -33,13 +33,7 @@
             .domain([-500, 500])
             .range([window.innerHeight, 0]);
 
-        var pointer = g.append('circle')
-            .attr("cx", 5)
-            .attr("cy", 5)
-            .attr("r", 5)
-            .attr("fill", function (d) {
-                return color(Math.random());
-            });
+        var pointer;
 
 
         var host = 'localhost';
@@ -48,8 +42,20 @@
         ws.onmessage = function (event) {
             event = JSON.parse(event.data);
             switch (event.type) {
+
+            case 'start':
+                if (pointer) pointer.remove();
+                pointer = g.append('circle')
+                    .attr("r", 5)
+                    .attr("fill", function (d) {
+                        return color(Math.random());
+                    });
             case 'point':
-                pointer.attr("cx", x(event.x) ).attr("cy", y(event.y) );
+                pointer.attr("cx", x(event.x)).attr("cy", y(event.y));
+                break;
+
+            case 'end':
+                pointer.remove();
                 break;
             }
             console.log(event);

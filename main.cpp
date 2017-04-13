@@ -33,7 +33,7 @@
 // Callback for when the focus is in progress
 void XN_CALLBACK_TYPE SessionProgress(const XnChar* strFocus, const XnPoint3D& ptFocusPoint, XnFloat fProgress, void* UserCxt)
 {
-	printf("{\"type\":\"progress\" \"x\":%d,\"y\":%d,\"z\":%d \"progress\":%f \"focus\":\"%s\"}\n", (int)ptFocusPoint.X, (int)ptFocusPoint.Y, (int)ptFocusPoint.Z, fProgress,  strFocus);
+	printf("{\"type\":\"progress\",\"x\":%d,\"y\":%d,\"z\":%d, \"progress\":%f, \"focus\":\"%s\"}\n", (int)ptFocusPoint.X, (int)ptFocusPoint.Y, (int)ptFocusPoint.Z, fProgress,  strFocus);
 }
 // callback for session start
 void XN_CALLBACK_TYPE SessionStart(const XnPoint3D& ptFocusPoint, void* UserCxt)
