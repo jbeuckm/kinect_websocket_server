@@ -20,8 +20,6 @@
 #include <XnVSwipeDetector.h>
 #include <XnVCircleDetector.h>
 
-#include "broadcast_server.hpp"
-
 // xml to initialize OpenNI
 #define SAMPLE_XML_FILE "../../../Data/Sample-Tracking.xml"
 #define SAMPLE_XML_FILE_LOCAL "Sample-Tracking.xml"
@@ -108,8 +106,6 @@ XnBool fileExists(const char *fn)
 // this sample can run either as a regular sample, or as a client for multi-process (remote mode)
 int main(int argc, char** argv)
 {
-    
-    
 	xn::Context context;
 	xn::ScriptNode scriptNode;
 	XnVSessionGenerator* pSessionGenerator;
@@ -163,9 +159,6 @@ int main(int argc, char** argv)
 
 		// Initialization done. Start generating
 		context.StartGeneratingAll();
-
-        broadcast_server server;
-//        server.run(9002);
     }
 
 	// Register session callbacks
@@ -202,7 +195,7 @@ int main(int argc, char** argv)
     printf("start_data\n");
 
 	// Main loop
-	while (!xnOSWasKeyboardHit())
+	while (true)
 	{
 		if (bRemoting)
 		{

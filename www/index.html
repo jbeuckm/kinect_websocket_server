@@ -5,6 +5,7 @@
         body {
             margin: 0;
         }
+        
         #overlay {
             position: absolute;
             pointer-events: none;
@@ -15,7 +16,7 @@
 
 
 <body>
-    
+
     <div style="background-color:grey; width:200px; height: 50px; position:absolute; left: 300px; top: 100px;" onclick="alert('hi')"></div>
 
     <svg id="overlay"></svg>
@@ -40,43 +41,50 @@
             .range([window.innerHeight, 0]);
 
         var pointer, lastX, lastY;
+        
+            function handleSocketEvent(event) {
+                event = JSON.parse(event.data);
+                switch (event.type) {
 
-
-        var host = 'localhost';
-
-        var ws = new WebSocket('ws://' + host + ':8080');
-        ws.onmessage = function (event) {
-            event = JSON.parse(event.data);
-            switch (event.type) {
-
-            case 'start':
-                if (pointer) pointer.remove();
-                pointer = g.append('circle')
-                    .attr("r", 5)
-                    .attr("fill", function (d) {
-                        return color(Math.random());
-                    });
-            case 'point':
+                case 'start':
+                    if (pointer) pointer.remove();
+                    pointer = g.append('circle')
+                        .attr("r", 5)
+                        .attr("fill", 'red');
+                        
+                case 'point':
                     lastX = x(event.x);
                     lastY = y(event.y);
-                pointer.attr("cx", lastX).attr("cy", lastY);
-                break;
-
-            case 'end':
-                pointer.remove();
-                break;
-                    
-                    
-                case 'push':
-document.elementFromPoint(lastX, lastY).click();                    
+                    pointer.attr("cx", lastX).attr("cy", lastY);
                     break;
-            }
-            
-            
-            
-            console.log(event);
 
-        };
+                case 'end':
+                    pointer.remove();
+                    break;
+
+                case 'push':
+                    document.elementFromPoint(lastX, lastY).click();
+                    break;
+                }
+
+                console.log(event);
+            }
+
+    
+        var host = 'localhost';
+        var ws;
+
+        function tryOpenSocket() {
+            console.log('tryOpenSocket');
+            ws = new WebSocket('ws://' + host + ':8080');
+            ws.onerror = ws.onclose = function(){
+                setTimeout(tryOpenSocket, 1000);
+            };
+            ws.onmessage = handleSocketEvent;
+        }
+
+        tryOpenSocket();
+    
     </script>
 </body>
 
