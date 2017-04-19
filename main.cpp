@@ -109,57 +109,35 @@ int main(int argc, char** argv)
 	xn::Context context;
 	xn::ScriptNode scriptNode;
 	XnVSessionGenerator* pSessionGenerator;
-	XnBool bRemoting = FALSE;
 
-	if (argc > 1)
-	{
-		// remote mode
-		context.Init();
-		printf("Running in 'Remoting' mode (Section name: %s)\n", argv[1]);
-		bRemoting = TRUE;
-
-		// Create multi-process client
-		pSessionGenerator = new XnVMultiProcessFlowClient(argv[1]);
-
-		XnStatus rc = ((XnVMultiProcessFlowClient*)pSessionGenerator)->Initialize();
-		if (rc != XN_STATUS_OK)
-		{
-			printf("Initialize failed: %s\n", xnGetStatusString(rc));
-			delete pSessionGenerator;
-			return 1;
-		}
-	}
-	else
-	{
-		// Local mode
-		// Create context
-		const char *fn = NULL;
-		if      (fileExists(SAMPLE_XML_FILE)) fn = SAMPLE_XML_FILE;
-		else if (fileExists(SAMPLE_XML_FILE_LOCAL)) fn = SAMPLE_XML_FILE_LOCAL;
-		else {
-			printf("Could not find '%s' nor '%s'. Aborting.\n" , SAMPLE_XML_FILE, SAMPLE_XML_FILE_LOCAL);
-			return XN_STATUS_ERROR;
-		}
-		XnStatus rc = context.InitFromXmlFile(fn, scriptNode);
-		if (rc != XN_STATUS_OK)
-		{
-			printf("Couldn't initialize: %s\n", xnGetStatusString(rc));
-			return 1;
-		}
-
-		// Create the Session Manager
-		pSessionGenerator = new XnVSessionManager();
-		rc = ((XnVSessionManager*)pSessionGenerator)->Initialize(&context, "Click", "RaiseHand");
-		if (rc != XN_STATUS_OK)
-		{
-			printf("Session Manager couldn't initialize: %s\n", xnGetStatusString(rc));
-			delete pSessionGenerator;
-			return 1;
-		}
-
-		// Initialization done. Start generating
-		context.StartGeneratingAll();
+    // Create context
+    const char *fn = NULL;
+    if      (fileExists(SAMPLE_XML_FILE)) fn = SAMPLE_XML_FILE;
+    else if (fileExists(SAMPLE_XML_FILE_LOCAL)) fn = SAMPLE_XML_FILE_LOCAL;
+    else {
+        printf("Could not find '%s' nor '%s'. Aborting.\n" , SAMPLE_XML_FILE, SAMPLE_XML_FILE_LOCAL);
+        return XN_STATUS_ERROR;
     }
+    XnStatus rc = context.InitFromXmlFile(fn, scriptNode);
+    if (rc != XN_STATUS_OK)
+    {
+        printf("Couldn't initialize: %s\n", xnGetStatusString(rc));
+        return 1;
+    }
+
+    // Create the Session Manager
+    pSessionGenerator = new XnVSessionManager();
+    rc = ((XnVSessionManager*)pSessionGenerator)->Initialize(&context, "Click", "RaiseHand");
+    if (rc != XN_STATUS_OK)
+    {
+        printf("Session Manager couldn't initialize: %s\n", xnGetStatusString(rc));
+        delete pSessionGenerator;
+        return 1;
+    }
+    
+
+    // Initialization done. Start generating
+    context.StartGeneratingAll();
 
 	// Register session callbacks
 	pSessionGenerator->RegisterSession(NULL, &SessionStart, &SessionEnd, &SessionProgress);
@@ -197,15 +175,8 @@ int main(int argc, char** argv)
 	// Main loop
 	while (true)
 	{
-		if (bRemoting)
-		{
-			((XnVMultiProcessFlowClient*)pSessionGenerator)->ReadState();
-		}
-		else
-		{
-			context.WaitAnyUpdateAll();
-			((XnVSessionManager*)pSessionGenerator)->Update(&context);
-		}
+        context.WaitAnyUpdateAll();
+        ((XnVSessionManager*)pSessionGenerator)->Update(&context);
 	}
 
 	delete pSessionGenerator;
