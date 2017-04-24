@@ -160,7 +160,7 @@ int main(int argc, char** argv)
 	cd.RegisterPointUpdate(NULL, OnPointUpdate);
 	pSessionGenerator->AddListener(&cd);
 
-	// init & register push control
+	// init & register swipe control
 	XnVSwipeDetector sd;
 	sd.RegisterSwipeUp(NULL, OnSwipeUpCB);
 	sd.RegisterSwipeDown(NULL, OnSwipeDownCB);
@@ -180,6 +180,5 @@ int main(int argc, char** argv)
 	}
 
 	delete pSessionGenerator;
-
 	return 0;
 }

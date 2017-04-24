@@ -22,13 +22,31 @@ var options = {
 //    stdio: ["ignore", process.stdout, "ignore"]
 };
 
-const bat = spawn('./GestureRepeater', [], options);
+function start() {
+    
+    const bat = spawn('./GestureRepeater', [], options);
 
-const rl = require('readline').createInterface({
-  input: bat.stdout
-});
+    const rl = require('readline').createInterface({
+      input: bat.stdout
+    });
 
-rl.on('line', function(line) {
-    console.log(line);
-    wss.broadcast(line);
-});
+    rl.on('line', function(line) {
+        console.log(line);
+        wss.broadcast(line);
+    });
+
+
+    bat.stderr.on('data', function(line) {
+        console.log("STDERR ALERT");
+        console.log(line);
+    });
+
+
+    bat.on('close', (code, signal) => {
+      console.log(`child process terminated due to receipt of signal ${signal}`);
+        start();
+    });
+
+}
+
+start();
