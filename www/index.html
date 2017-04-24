@@ -53,6 +53,11 @@
                         .attr("fill", 'red');
                         
                 case 'point':
+                    if (!pointer) {
+                        pointer = g.append('circle')
+                            .attr("r", 5)
+                            .attr("fill", 'red');
+                    }
                     lastX = x(event.x);
                     lastY = y(event.y);
                     pointer.attr("cx", lastX).attr("cy", lastY);
