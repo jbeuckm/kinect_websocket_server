@@ -9,6 +9,18 @@
         #overlay {
             position: absolute;
             pointer-events: none;
+            z-index: 1000;
+        }
+        
+        iframe {
+            position: absolute;
+            z-index: 1;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: transparent;
         }
     </style>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -17,7 +29,7 @@
 
 <body>
 
-    <div style="background-color:grey; width:200px; height: 50px; position:absolute; left: 300px; top: 100px;" onclick="alert('hi')"></div>
+    <iframe id="iframe" src="presentation.html" scrolling="no"></iframe>
 
     <svg id="overlay"></svg>
 
@@ -41,55 +53,63 @@
             .range([window.innerHeight, 0]);
 
         var pointer, lastX, lastY;
-        
-            function handleSocketEvent(event) {
-                event = JSON.parse(event.data);
-                switch (event.type) {
 
-                case 'start':
-                    if (pointer) pointer.remove();
+        function handleSocketEvent(event) {
+            event = JSON.parse(event.data);
+            switch (event.type) {
+
+            case 'start':
+                if (pointer) pointer.remove();
+                pointer = g.append('circle')
+                    .attr("r", 5)
+                    .attr("fill", 'red');
+
+            case 'point':
+                if (!pointer) {
                     pointer = g.append('circle')
                         .attr("r", 5)
                         .attr("fill", 'red');
-                        
-                case 'point':
-                    if (!pointer) {
-                        pointer = g.append('circle')
-                            .attr("r", 5)
-                            .attr("fill", 'red');
-                    }
-                    lastX = x(event.x);
-                    lastY = y(event.y);
-                    pointer.attr("cx", lastX).attr("cy", lastY);
-                    break;
-
-                case 'end':
-                    pointer.remove();
-                    break;
-
-                case 'push':
-                    document.elementFromPoint(lastX, lastY).click();
-                    break;
                 }
+                lastX = x(event.x);
+                lastY = y(event.y);
+                pointer.attr("cx", lastX).attr("cy", lastY);
+                break;
 
-                console.log(event);
+            case 'end':
+                pointer.remove();
+                break;
+
+            case 'push':
+                click(lastX, lastY);
+                break;
             }
 
-    
+            console.log(event);
+        }
+
+
+        function click(x, y) {
+            
+            var iframe = document.getElementById("iframe");
+            var ev = iframe.contentDocument.createEvent("MouseEvent");
+            var el = iframe.contentDocument.elementFromPoint(x, y);
+            el.click();
+        }
+
+
         var host = 'localhost';
         var ws;
 
         function tryOpenSocket() {
             console.log('tryOpenSocket');
             ws = new WebSocket('ws://' + host + ':8080');
-            ws.onerror = ws.onclose = function(){
+            ws.onerror = ws.onclose = function () {
                 setTimeout(tryOpenSocket, 1000);
             };
             ws.onmessage = handleSocketEvent;
         }
 
         tryOpenSocket();
-    
     </script>
 </body>
 
